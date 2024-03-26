@@ -1,5 +1,7 @@
 package src.main.java.com.example.demo.config;
 
+import com.example.demo.entity.Customer;
+import com.example.demo.entity.Division;
 import edu.wgu.d288_backend.entities.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;

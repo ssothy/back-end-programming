@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -37,16 +36,17 @@ public class Customer {
 
     @Column(name = "create_date")
     @CreationTimestamp
-    private Timestamp createDate;
+    private Date createDate;
 
     @Column(name = "last_update")
     @UpdateTimestamp
-    private Timestamp lastUpdate;
+    private Date lastUpdate;
 
-    @Column(name = "division_id")
-    private Long division;
+    @ManyToOne()
+    @JoinColumn(name = "division_id", nullable = false)
+    private Division division;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Cart> carts;
 
 }

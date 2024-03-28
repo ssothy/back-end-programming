@@ -1,8 +1,6 @@
-package src.main.java.com.example.demo.config;
+package com.example.demo.config;
 
-import com.example.demo.entity.Customer;
-import com.example.demo.entity.Division;
-import edu.wgu.d288_backend.entities.*;
+import com.example.demo.entities.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -31,9 +29,10 @@ public class RestDataConfig implements RepositoryRestConfigurer {
      * <p>
      * Set page configuration parameters
      *
-     * @param config
-     * @param cors
+     *@param config
+     *@param cors
      */
+
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(Country.class);
@@ -47,4 +46,3 @@ public class RestDataConfig implements RepositoryRestConfigurer {
 
     }
 }
-

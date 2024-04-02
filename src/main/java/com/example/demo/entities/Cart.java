@@ -1,55 +1,62 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "carts")
+@Table(name = "CARTS")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_id")
+    @Column(name = "Cart_ID")
     private Long id;
 
-    @Column(name = "order_tracking_number")
+    @Column(name = "Order_Tracking_Number")
     private String orderTrackingNumber;
 
-    @Column(name = "package_price")
-    private BigDecimal packagePrice;
+    @Column(name = "Package_Price")
+    private BigDecimal package_price;
 
-    @Column(name = "party_size")
-    private int partySize;
+    @Column(name = "Party_Size")
+    private int party_size;
 
-    @Column(name = "status")
+    @Column(name = "Status")
     @Enumerated(EnumType.STRING)
     private StatusType status;
 
     @CreationTimestamp
-    @Column(name = "create_date")
-    private Date createDate;
+    @Column(name = "Create_Date")
+    private Date create_date;
 
     @UpdateTimestamp
-    @Column(name = "last_update")
-    private Date lastUpdate;
+    @Column(name = "Last_Update")
+    private Date last_update;
 
-    @ManyToOne()
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "Customer_ID", nullable = false)
     private Customer customer;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-    private Set<CartItem> cartItems;
+    private Set<CartItem>  cartItem;
 
     public enum StatusType {
-        pending, ordered, canceled
+        pending, ordered, canceled;
     }
+
 }

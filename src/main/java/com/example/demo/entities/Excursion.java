@@ -1,7 +1,10 @@
 package com.example.demo.entities;
 
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,37 +14,42 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "excursions")
+@Table(name="EXCURSIONS")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Excursion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "excursion_id")
+    @Column(name = "Excursion_ID")
     private Long id;
 
-    @Column(name = "excursion_title")
-    private String title;
+    @Column(name = "Excursion_Title")
+    private String excursion_title;
 
-    @Column(name = "excursion_price")
-    private BigDecimal price;
+    @Column(name = "Excursion_Price")
+    private BigDecimal excursion_price;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "Image_URL")
+    private String image_URL;
 
     @CreationTimestamp
-    @Column(name = "create_date")
-    private Date createDate;
+    @Column(name = "Create_Date")
+    private Date create_date;
 
     @UpdateTimestamp
-    @Column(name = "last_update")
-    private Date lastUpdate;
+    @Column(name = "Last_Update")
+    private Date last_update;
 
-    @ManyToOne()
-    @JoinColumn(name = "vacation_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "Vacation_ID", nullable = false)
     private Vacation vacation;
 
-    @ManyToMany(mappedBy = "excursions")
-    private Set<CartItem> cartItems;
+    @ManyToMany
+    @JoinTable(name = "excursion_cartitem",
+        joinColumns = @JoinColumn(name = "Excursion_ID"),
+            inverseJoinColumns = @JoinColumn(name = "Cart_Item_ID"))
+    private Set<CartItem> cartitems;
 }

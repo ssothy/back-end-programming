@@ -1,42 +1,49 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "cart_items")
+@Table (name = "CART_ITEMS")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_item_id")
+    @Column(name = "Cart_Item_ID")
     private Long id;
 
-    @Column(name = "vacation_id")
+    @ManyToOne
+    @JoinColumn (name = "Vacation_ID", nullable = false)
     private Vacation vacation;
 
-    @CreationTimestamp
-    @Column(name = "create_date")
-    private Date createDate;
+    @ManyToMany
+    @JoinTable(name = "excursion_cartitem",
+            joinColumns = @JoinColumn(name = "Cart_Item_ID"),
+            inverseJoinColumns = @JoinColumn(name = "Excursion_ID"))
+    private Set<Excursion> excursions;
 
-    @UpdateTimestamp
-    @Column(name = "last_update")
-    private Date lastUpdate;
-
-    @ManyToOne()
-    @JoinColumn(name = "cart_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "Cart_ID", nullable = false)
     private Cart cart;
 
-    @ManyToMany()
-    @JoinTable(name = "excursion_cartitem", joinColumns = @JoinColumn(name = "excursion_id"),
-        inverseJoinColumns = @JoinColumn(name = "cart_item_id"))
-    private Set<Excursion> excursions;
+    @CreationTimestamp
+    @Column(name = "Create_Date")
+    private Date create_date;
+
+    @UpdateTimestamp
+    @Column(name = "Last_Update")
+    private Date last_update;
 }

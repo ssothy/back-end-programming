@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.example.demo.dao.CartItemRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,11 @@ public class Cart {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private Set<CartItem>  cartItem;
+
+    public static void add(CartItem item) {
+        Cart.add(item);
+    }
+
 
     public enum StatusType {
         pending, ordered, canceled;

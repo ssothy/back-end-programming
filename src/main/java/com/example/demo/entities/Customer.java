@@ -55,4 +55,7 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private Set<Cart> carts;
 
+    public static void add(Cart cart) {
+        Customer.add(cart);
+    }
 }

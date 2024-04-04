@@ -18,10 +18,15 @@ import java.util.UUID;
 public class CheckoutServiceImpl implements CheckoutService {
 
     private CartRepository cartRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
     public CheckoutServiceImpl(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
+    }
+
+    public CheckoutServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -41,14 +46,15 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         //populate cart with customer and cartItems (idk I'm so confused)
         cart.setCustomer(purchase.getCustomer());
-        cart.setCartItem(purchase.getCartItems());
+        cart.setCartItems(purchase.getCartItems());
 
         //populate customer with cart
         Customer customer = purchase.getCustomer();
-        Customer.add(cart);
+        customer.add(cart);
 
         //save to the database
         cartRepository.save(cart);
+        customerRepository.save(customer);
 
         //set cart status to ordered
         cart.setStatus(Cart.StatusType.ordered);

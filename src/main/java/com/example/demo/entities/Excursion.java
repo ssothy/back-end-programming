@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -47,9 +48,6 @@ public class Excursion {
     @JoinColumn(name = "Vacation_ID", nullable = false)
     private Vacation vacation;
 
-    @ManyToMany
-    @JoinTable(name = "excursion_cartitem",
-        joinColumns = @JoinColumn(name = "Excursion_ID"),
-            inverseJoinColumns = @JoinColumn(name = "Cart_Item_ID"))
-    private Set<CartItem> cartitems;
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "excursions")
+    Set<CartItem> cartitems = new HashSet<>();
 }

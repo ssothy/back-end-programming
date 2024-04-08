@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.example.demo.entities.Cart.StatusType.ordered;
+
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
 
@@ -35,6 +37,8 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         //retrieve the order info from dto
         Cart cart = purchase.getCart();
+        cart.setStatus(ordered);
+
 
         //generate tracking number
         String orderTrackingNumber = generateOrderTrackingNumber();
@@ -42,24 +46,23 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         //populate cart with cartItems
         Set<CartItem> cartItems = purchase.getCartItems();
-        cartItems.forEach(item -> cart.add(item));
+        //cartItems.forEach(cartItem -> cartItem.setCart(cart));
+        cartItems.forEach(item -> {
+                    cart.add(item);
+                    item.setCart(cart);
+                    item.getExcursions().forEach(excursion -> {
+                        excursion.setVacation(item.getVacation());
+                        excursion.getCartitems().add(item);
+                    });
+                });
 
         //populate cart with customer and cartItems (idk I'm so confused)
-        cart.setCustomer(purchase.getCustomer());
-        cart.setCartItems(purchase.getCartItems());
 
         //populate customer with cart
-        Customer customer = purchase.getCustomer();
-        customer.add(cart);
 
-        //save to the database
-        cartRepository.save(cart);
-        customerRepository.save(customer);
-
-        //set cart status to ordered
-        cart.setStatus(Cart.StatusType.ordered);
 
         //return a response
+        cartRepository.save(cart);
         return new PurchaseResponse(orderTrackingNumber);
     }
 

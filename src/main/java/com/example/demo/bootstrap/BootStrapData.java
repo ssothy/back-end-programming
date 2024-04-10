@@ -23,7 +23,7 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (customerRepository.count() >= 1) {
+        if (customerRepository.count() <= 1) {
             Division division1 = divisionRepository.findById(2L).orElse(null);
 
             Customer test1 = new Customer();
